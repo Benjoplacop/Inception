@@ -13,8 +13,6 @@ services:
     volumes:
       - mariadb:/var/lib/mysql
     restart: unless-stopped
-    environment:
-      SQL_ROOT_PASSWORD: Motdepasse1
     expose:
       - "3306"
         
