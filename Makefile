@@ -1,15 +1,18 @@
-include srcs/.env
+all : build up
 
-all : up
+build:
+	cd srcs && docker-compose -f build
 
 up:
-	mkdir -p $(VOLUMES_ROOTS)/mariadb $(VOLUME_ROOTS)/wordpress
-	cd srcs && docker-compose build && docker-compose up -d
+	cd srcs && docker-compose -f up -d
 
 down:
 	docker-compose -f srcs/docker-compose.yml down --remove-orphans
 
-re: down up
+stop:
+	cd srcs && docker-compose -f stop
+
+re: down build up
 
 logs:
 	docker-compose -f srcs/docker-compose.yml logs -f
@@ -17,7 +20,7 @@ logs:
 clean:
 	docker-compose -f srcs/docker-compose.yml down --remove-orphans
 	docker system prune -af
-	rm -rf $(VOLUME_TOO)/mariadb $(VOLUMES_ROOT)/wordpress 
 
 fclean:
-	rm -rf $(VOLUMES_ROOT)
+	rm -rf /home/bhennequ/data
+	mkdir -p /home/bhennequ/data && mkdir -p /home/bhennequ/data/wordpress && mkdir -p /home/bhennequ/data/wordpress
